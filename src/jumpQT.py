@@ -11,8 +11,9 @@ T = 10
 dt = T/N
 theta = np.sqrt(dt)     # still not entirely convinced this is correct
 
+
 # randomization properties
-seed    = 1337
+seed    = 1329
 rng     = rnd.seed(seed)
 
 # initial
@@ -45,13 +46,20 @@ betasqr_n = np.abs(beta*beta)*np.exp(-n*theta*theta) / denom
 
 def SSE_CNOT(psi):
     
-    p1      = (theta*theta) * np.abs(beta*beta)
+    p1      = (theta*theta) * np.abs(psi[1][0]*psi[1][0])
+    #p1      = (theta*theta) * beta*beta
     p       = rnd.random()
 
+    #print(psi[1][0])
+
+    #print(p1)
+
     if p > p1:
-        psi_ = psi - (theta*theta/2) * ( bas1*bas1.dag() - ((bas1.dag()*psi0)).norm()**2 ) * psi
+        psi_ = psi - (theta*theta/2) * ( bas1*bas1.dag() - (  np.abs(psi[1][0])**2 )) * psi
+    
     else:
-        psi_ = psi + ( (bas1*bas1.dag())/((bas1.dag()*psi0)).norm() - qt.qeye(2) ) * psi
+        psi_ = psi  + ( (bas1*bas1.dag())/(np.abs(psi[1][0])) - qt.qeye(2) ) * psi
+    
 
     return psi_
 
@@ -67,7 +75,8 @@ for i in range(N-1):
 alpha2  = np.abs(psin[::,0])**2
 beta2   = np.abs(psin[::,1])**2
 
+
 plt.plot(n, beta2, label="|beta|^2", c="red")
-plt.plot(n, alpha2, label="|alpha|^2", c="green")
+#plt.plot(n, alpha2, label="|alpha|^2", c="green")
 plt.legend()
 plt.show()
