@@ -17,7 +17,7 @@ times = np.linspace(0,T,N) # array of times used when plotting results
 
 # randomization properties
 # -------------------------
-seed    = 1337
+seed    = 1300
 rng     = rnd.seed(seed)
 
 
@@ -63,10 +63,6 @@ def SSE_CNOT(psi, beta0):
     #p1      = (theta*theta) * beta0*beta0
     p       = rnd.random()
 
-    #print(psi[1][0])
-
-    #print(p1)
-
     if p > p1:
         psi_ = psi - (theta*theta/2) * ( bas1*bas1.dag() - (  np.abs(psi[1])**2 )) * psi
     
@@ -92,4 +88,6 @@ for beta in range(N_states):
     plt.plot(times, abs_beta_squared, label=str(psi_evol[0,beta,1]**2))
 
 #plt.legend()
+plt.ylabel("|beta|^2")
+plt.xlabel("time")
 plt.show()
